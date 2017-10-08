@@ -13,9 +13,12 @@ import (
 var fields graphql.Fields = graphql.Fields{
 	"hello": &graphql.Field{
 		Type: graphql.String,
-		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			return "world", nil
+		Args: graphql.FieldConfigArgument{
+			"id": &graphql.ArgumentConfig{
+				Type: graphql.Int,
+			},
 		},
+		Resolve: resolve,
 	},
 }
 
@@ -51,4 +54,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.HandleFunc("/", handler)
 	http.ListenAndServe(":8080", nil)
+}
+
+func resolve(p graphql.ResolveParams) (interface{}, error) {
+	return p.Args["id"], nil
 }

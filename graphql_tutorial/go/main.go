@@ -22,8 +22,25 @@ var fields graphql.Fields = graphql.Fields{
 	},
 }
 
+// MutationSchema
+var mutaiotnFields graphql.Fields = graphql.Fields{
+	"create": &graphql.Field{
+		Type: graphql.String,
+		Args: graphql.FieldConfigArgument{
+			"id": &graphql.ArgumentConfig{
+				Type: graphql.Int,
+			},
+		},
+		Resolve: resolve,
+	},
+}
+
 var rootQuery graphql.ObjectConfig = graphql.ObjectConfig{Name: "RootQuery", Fields: fields}
-var schemaConfig graphql.SchemaConfig = graphql.SchemaConfig{Query: graphql.NewObject(rootQuery)}
+var rootMutation graphql.ObjectConfig = graphql.ObjectConfig{Name: "RootMutation", Fields: mutaiotnFields}
+var schemaConfig graphql.SchemaConfig = graphql.SchemaConfig{
+	Query:    graphql.NewObject(rootQuery),
+	Mutation: graphql.NewObject(rootMutation),
+}
 var schema, _ = graphql.NewSchema(schemaConfig)
 
 func executeQuery(query string, schema graphql.Schema) *graphql.Result {

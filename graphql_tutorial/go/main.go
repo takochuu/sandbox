@@ -25,13 +25,19 @@ var fields graphql.Fields = graphql.Fields{
 // MutationSchema
 var mutaiotnFields graphql.Fields = graphql.Fields{
 	"create": &graphql.Field{
-		Type: graphql.String,
+		Type: graphql.NewList(graphql.NewObject(graphql.ObjectConfig{
+			Name: "mutation",
+			Fields: graphql.Fields{
+				"id":   &graphql.Field{Type: graphql.ID},
+				"name": &graphql.Field{Type: graphql.String},
+			},
+		})),
 		Args: graphql.FieldConfigArgument{
 			"id": &graphql.ArgumentConfig{
 				Type: graphql.Int,
 			},
 		},
-		Resolve: resolve,
+		Resolve: resolveMutation,
 	},
 }
 
@@ -75,4 +81,16 @@ func main() {
 
 func resolve(p graphql.ResolveParams) (interface{}, error) {
 	return p.Args["id"], nil
+}
+
+type User struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+}
+
+func resolveMutation(p graphql.ResolveParams) (interface{}, error) {
+	return []User{
+		{ID: p.Args["id"].(int), Name: "Fugafuga"},
+		{ID: p.Args["id"].(int), Name: "Hogehoge"},
+	}, nil
 }

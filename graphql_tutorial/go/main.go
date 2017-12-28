@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/graphql-go/graphql"
+	graphHandler "github.com/graphql-go/handler"
 )
 
 // Schema
@@ -76,6 +77,14 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/", handler)
+
+	h := graphHandler.New(&graphHandler.Config{
+		Schema:   &schema,
+		Pretty:   true,
+		GraphiQL: false,
+	})
+	http.Handle("/handle", h)
+
 	http.ListenAndServe(":8080", nil)
 }
 

@@ -15,7 +15,7 @@ type Server struct {
 	maxConnection int
 }
 
-func newServer(addr string, config ...func(*Server) error) *Server {
+func newServer(addr string, config ...func(*Server)) *Server {
 	s := &Server{}
 	for _, v := range config {
 		v(s)
@@ -24,21 +24,19 @@ func newServer(addr string, config ...func(*Server) error) *Server {
 	return s
 }
 
-func (s *Server) setTimeout(t time.Duration) error {
+func (s *Server) setTimeout(t time.Duration) {
 	s.timeout = t
-	return nil
 }
 
-type Option func(*Server) error
+type Option func(*Server)
 
 func timeout(t int) Option {
-	return func(s *Server) error {
-		return s.setTimeout(time.Duration(t) * time.Second)
+	return func(s *Server) {
+		s.setTimeout(time.Duration(t) * time.Second)
 	}
 }
 func maxConnection(c int) Option {
-	return func(s *Server) error {
+	return func(s *Server) {
 		s.maxConnection = c
-		return nil
 	}
 }

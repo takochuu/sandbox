@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"github.com/eure/eure-payment/library/net/http/response"
 	"github.com/golang/glog"
+	"github.com/takochuu/sandbox/archtecture-sample/service/main/converter"
 	"github.com/takochuu/sandbox/archtecture-sample/service/main/facade"
 )
 
@@ -29,12 +29,12 @@ func (c *LikeController) PostLike(r request) {
 		glog.Errorln(err)
 
 		// Response
-		response.ErrorJSON()
 	}
 
 	// Transactionのコミット
 	transaction.Commit()
 
 	// レスポンスの集計Converter
-	converter.NewPostLike()
+	converter := converter.NewPostLike()
+	return converter.Apply()
 }

@@ -1,5 +1,7 @@
 package facade
 
+import "github.com/takochuu/sandbox/archtecture-sample/domain"
+
 type LikeFacade struct {
 }
 
@@ -27,13 +29,13 @@ func NewGetUserListRetVal() PostLikeRetVal {
 
 func (c *LikeFacade) PostLike(opt PostLikeArgument) (PostLikeRetVal, error) {
 	ret := NewGetUserListRetVal()
-	p := domain.NewPartnerDomain()
+	p := domain.NewPartner()
 	partner, err := p.GetPartner(opt.PartnerID)
 	if err != nil {
 		return ret, err
 	}
 
-	l := domain.NewLikeDomain()
+	l := domain.NewLike()
 	err = l.DoLike(opt.Me, partner)
 	if err != nil {
 		return ret, err

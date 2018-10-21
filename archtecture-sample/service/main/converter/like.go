@@ -8,5 +8,6 @@ func NewPostLike() PostLike {
 }
 
 func (c *PostLike) Apply() {
+	response.
 
 }

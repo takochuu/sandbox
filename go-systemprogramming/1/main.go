@@ -1,17 +1,16 @@
 package main
 
 import (
+	"compress/gzip"
 	"io"
 	"net"
 	"os"
-
-	"github.com/acidlemon/go-dumper"
 )
 
 func main() {
 	netConn()
 	multiWrite()
-	gzip()
+	gZip()
 }
 
 func netConn() {
@@ -29,11 +28,10 @@ func multiWrite() {
 		panic(err)
 	}
 	writer := io.MultiWriter(file, os.Stdout)
-	dump.Dump(writer)
 	io.WriteString(writer, "io.MultiWriter example\n")
 }
 
-func gzip() {
+func gZip() {
 	file, err := os.Create("test.txt.gz")
 	if err != nil {
 		panic(err)

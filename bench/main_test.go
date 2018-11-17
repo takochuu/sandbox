@@ -15,3 +15,15 @@ func BenchmarkB(b *testing.B) {
 		RegExp()
 	}
 }
+
+func BenchmarkC(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Matcher()
+	}
+}
+
+func BenchmarkD(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		FuncMatcher()
+	}
+}

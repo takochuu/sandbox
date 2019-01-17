@@ -1,10 +1,10 @@
-// +build !prod
+// +build !jp
 
 package env
 
 type TestStruct struct {
-	FirstName string `xorm:"first_name"`
-	LastName  string `xorm:"last_name"`
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
 }
 
 func NewTestStruct() TestStruct {

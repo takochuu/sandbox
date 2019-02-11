@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
 var limit = make(chan int, 3)
@@ -25,5 +26,14 @@ func main() {
 			w()
 		}(w)
 	}
-	fmt.Println(<-limit)
+
+	for {
+		select {
+		case v := <-limit:
+			fmt.Println(v)
+		default:
+			fmt.Println("novalue")
+		}
+		time.Sleep(1000 * time.Millisecond)
+	}
 }

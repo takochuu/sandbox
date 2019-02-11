@@ -10,27 +10,20 @@ var work []func()
 func main() {
 	work = append(work, func() {
 		fmt.Println("hogehoge")
+		limit <- 1
 	})
 	work = append(work, func() {
 		fmt.Println("fugafuga")
+		limit <- 2
 	})
 	work = append(work, func() {
 		fmt.Println("piyopiyo")
+		limit <- 3
 	})
 	for _, w := range work {
 		go func(w func()) {
-			limit <- 1
 			w()
-			<-limit
 		}(w)
 	}
-
-	select {
-	/*
-		case v := <-limit:
-			fmt.Println(v)
-		default:
-			fmt.Println("no value")
-	*/
-	}
+	fmt.Println(<-limit)
 }

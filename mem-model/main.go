@@ -1,17 +1,36 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
-var c = make(chan int, 10)
-var a string
-
-func f() {
-	a = "hello, world"
-	<-c
-}
+var limit = make(chan int, 3)
+var work []func()
 
 func main() {
-	go f()
-	c <- 0
-	fmt.Print(a)
+	work = append(work, func() {
+		fmt.Println("hogehoge")
+	})
+	work = append(work, func() {
+		fmt.Println("fugafuga")
+	})
+	work = append(work, func() {
+		fmt.Println("piyopiyo")
+	})
+	for _, w := range work {
+		go func(w func()) {
+			limit <- 1
+			w()
+			<-limit
+		}(w)
+	}
+
+	select {
+	/*
+		case v := <-limit:
+			fmt.Println(v)
+		default:
+			fmt.Println("no value")
+	*/
+	}
 }

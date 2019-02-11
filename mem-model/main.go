@@ -2,13 +2,16 @@ package main
 
 import "fmt"
 
+var c = make(chan int, 10)
 var a string
 
 func f() {
-	fmt.Println(a)
+	a = "hello, world"
+	c <- 0
 }
 
 func main() {
-	a = "hello, world"
 	go f()
+	<-c
+	fmt.Print(a)
 }

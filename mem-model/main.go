@@ -7,11 +7,11 @@ var a string
 
 func f() {
 	a = "hello, world"
-	c <- 0
+	<-c
 }
 
 func main() {
 	go f()
-	<-c
+	c <- 0
 	fmt.Print(a)
 }
